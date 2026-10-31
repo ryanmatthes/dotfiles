@@ -1,9 +1,5 @@
 [user]
 	name = Ryan Matthes
 	email = ryan.matthes@gmail.com
-[credential "https://github.com"]
-	helper = 
-	helper = !~/.local/share/mise/shims/gh auth git-credential
-[credential "https://gist.github.com"]
-	helper = 
-	helper = !~/.local/share/mise/shims/gh auth git-credential
+[credential]
+	helper = /mnt/c/Program\\ Files/Git/ucrt64/bin/git-credential-manager.exe
