@@ -1,0 +1,96 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/PowerShell/DSC/main/schemas/2023/08/config/document.json
+#
+# Windows dev setup (home): PowerShell 7, Developer Mode, Visual Studio Community 2026 + workloads.
+# Based on Microsoft's winget-dsc sample: samples/Configuration files/Learn tutorials/WinUI/winui-config.v3.winget
+# Run from an elevated PowerShell:
+#   winget configure validate -f <this file>
+#   winget configure -f <this file> --accept-configuration-agreements
+# Not included (already installed; add if rebuilding a machine): VS Code (user install), Git for Windows, Windows Terminal.
+$schema: https://raw.githubusercontent.com/PowerShell/DSC/main/schemas/2023/08/config/document.json
+metadata:
+  winget:
+    processor:
+      identifier: dscv3
+resources:
+- type: Microsoft.WinGet/Package
+  name: PowerShell7
+  properties:
+    id: Microsoft.PowerShell
+    source: winget
+  metadata:
+    description: Install PowerShell 7 (needed for the module steps below)
+    winget:
+      securityContext: elevated
+- type: Microsoft.DSC.Transitional/RunCommandOnSet
+  name: Microsoft.Windows.Settings.Module
+  dependsOn:
+    - PowerShell7
+  properties:
+    executable: C:\Program Files\PowerShell\7\pwsh.exe
+    arguments:
+      "0": -NoProfile
+      "1": -NoLogo
+      "2": -Command
+      "3": >-
+        if (-not (Get-Module -ListAvailable -Name Microsoft.Windows.Settings))
+        { Install-PSResource -Name Microsoft.Windows.Settings -Prerelease
+        -TrustRepository -AcceptLicense }
+      treatAsArray: true
+  metadata:
+    description: Ensure Microsoft.Windows.Settings module is installed
+- type: Microsoft.DSC.Transitional/RunCommandOnSet
+  name: Microsoft.VisualStudio.DSC.Module
+  dependsOn:
+    - PowerShell7
+  properties:
+    executable: C:\Program Files\PowerShell\7\pwsh.exe
+    arguments:
+      "0": -NoProfile
+      "1": -NoLogo
+      "2": -Command
+      "3": >-
+        if (-not (Get-Module -ListAvailable -Name Microsoft.VisualStudio.DSC))
+        { Install-PSResource -Name Microsoft.VisualStudio.DSC -Prerelease
+        -TrustRepository -AcceptLicense }
+      treatAsArray: true
+  metadata:
+    description: Ensure Microsoft.VisualStudio.DSC module is installed
+- type: Microsoft.Windows.Settings/WindowsSettings
+  name: DeveloperMode
+  dependsOn:
+    - Microsoft.Windows.Settings.Module
+  properties:
+    DeveloperMode: true
+  metadata:
+    description: Enable Developer Mode (WinUI/MSIX sideloading, symlinks without admin)
+    winget:
+      securityContext: elevated
+- type: Microsoft.WinGet/Package
+  name: VisualStudioCommunity
+  properties:
+    id: Microsoft.VisualStudio.Community
+    source: winget
+    useLatest: true
+  metadata:
+    description: Install Visual Studio Community 2026
+    winget:
+      securityContext: elevated
+- type: Microsoft.VisualStudio.DSC/VSComponents
+  name: VSWorkloads
+  dependsOn:
+    - VisualStudioCommunity
+    - Microsoft.VisualStudio.DSC.Module
+  properties:
+    productId: Microsoft.VisualStudio.Product.Community
+    channelId: VisualStudio.18.Release
+    includeRecommended: true
+    components:
+      - Microsoft.VisualStudio.Workload.ManagedDesktop       # .NET desktop: WPF, WinForms
+      - Microsoft.VisualStudio.Workload.NativeDesktop        # C++ desktop: MSVC, Windows SDK, CMake tools
+      - Microsoft.VisualStudio.Workload.NetWeb               # ASP.NET Core and web
+      - Microsoft.VisualStudio.Workload.Universal            # WinUI
+      - Microsoft.VisualStudio.ComponentGroup.WindowsAppSDK.Cs
+  metadata:
+    description: Install VS workloads (.NET desktop, C++ desktop, ASP.NET, WinUI)
+    winget:
+      securityContext: elevated
