@@ -1,0 +1,24 @@
+[tools]
+bat = "latest"
+chezmoi = "latest"
+eza = "latest"
+fastfetch = "latest"
+fzf = "latest"
+gh = "latest"
+jq = "latest"
+node = "lts"
+"npm:prettier" = "latest"
+python = "3.12"
+ruby = "3.4.9"
+ruff = "latest"
+starship = "latest"
+uv = "latest"
+zoxide = "latest"
+
+[settings]
+
+[settings.ruby]
+compile = false
+
+[env]
+PIP_REQUIRE_VIRTUALENV = "true"
