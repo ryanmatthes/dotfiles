@@ -1,0 +1,2 @@
+# Same bytes on every OS: stop Git for Windows (autocrlf=true) converting to CRLF on checkout
+* text=auto eol=lf

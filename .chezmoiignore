@@ -1,4 +1,5 @@
 README.md
+.gitattributes
 windows/
 {{- if ne .chezmoi.os "linux" }}
 .bashrc
