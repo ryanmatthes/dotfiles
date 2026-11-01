@@ -139,3 +139,8 @@ __wt_prompt_marks() {
 }
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND; }__wt_prompt_marks"
 PS0='\e]133;C\a'"${PS0-}"
+
+# --- vcpkg (C++ packages, manifest mode; see claude-backup/dev-env) ---
+export VCPKG_ROOT="$HOME/vcpkg"
+export VCPKG_DISABLE_METRICS=1
+export PATH="$VCPKG_ROOT:$PATH"
