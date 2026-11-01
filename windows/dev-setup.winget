@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/PowerShell/DSC/main/schemas/2023/08/config/document.json
 #
-# Windows dev setup (home): PowerShell 7, Developer Mode, Visual Studio Community 2026 + workloads.
+# Windows dev setup (home): PowerShell 7, chezmoi, Developer Mode, Visual Studio Community 2026 + workloads.
 # Based on Microsoft's winget-dsc sample: samples/Configuration files/Learn tutorials/WinUI/winui-config.v3.winget
 # Run from an elevated PowerShell:
 #   winget configure validate -f <this file>
@@ -21,6 +21,13 @@ resources:
     description: Install PowerShell 7 (needed for the module steps below)
     winget:
       securityContext: elevated
+- type: Microsoft.WinGet/Package
+  name: Chezmoi
+  properties:
+    id: twpayne.chezmoi
+    source: winget
+  metadata:
+    description: Install chezmoi (dotfiles; then `chezmoi init --apply ryanmatthes` as a normal user)
 - type: Microsoft.DSC.Transitional/RunCommandOnSet
   name: Microsoft.Windows.Settings.Module
   dependsOn:

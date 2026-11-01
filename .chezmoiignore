@@ -1,2 +1,10 @@
 README.md
 windows/
+{{- if ne .chezmoi.os "linux" }}
+.bashrc
+.profile
+.config/mise
+{{- end }}
+{{- if ne .chezmoi.os "windows" }}
+AppData
+{{- end }}

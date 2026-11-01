@@ -1,5 +1,10 @@
 # dotfiles
 
-Managed with [chezmoi](https://www.chezmoi.io/).
+Managed with [chezmoi](https://www.chezmoi.io/). One repo for WSL (Linux) and Windows.
+
+- WSL only: `.bashrc`, `.profile`, `.config/mise/config.toml`
+- Windows only: VS Code user settings (`AppData/Roaming/Code/User/settings.json`)
+- Both: `.gitconfig` (template; WSL adds the Windows Git Credential Manager path)
+- `windows/dev-setup.winget`: WinGet configuration (not applied by chezmoi; run with `winget configure`)
 
 New machine: `chezmoi init --apply ryanmatthes`

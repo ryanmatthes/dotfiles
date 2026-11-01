@@ -1,5 +1,7 @@
 [user]
 	name = Ryan Matthes
 	email = ryan.matthes@gmail.com
+{{- if eq .chezmoi.os "linux" }}
 [credential]
 	helper = /mnt/c/Program\\ Files/Git/ucrt64/bin/git-credential-manager.exe
+{{- end }}
