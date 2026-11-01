@@ -5,6 +5,7 @@ windows/
 .bashrc
 .profile
 .config/mise
+.local/bin
 {{- end }}
 {{- if ne .chezmoi.os "windows" }}
 AppData
