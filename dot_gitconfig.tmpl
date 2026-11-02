@@ -1,7 +1,11 @@
 [user]
-	name = Ryan Matthes
-	email = {{ .email }}
+        name = Ryan Matthes
+        email = {{ .email }}
 {{- if eq .chezmoi.os "linux" }}
 [credential]
-	helper = /mnt/c/Program\\ Files/Git/ucrt64/bin/git-credential-manager.exe
+        helper = /mnt/c/Program\\ Files/Git/ucrt64/bin/git-credential-manager.exe
+{{- end }}
+{{- if eq .chezmoi.os "windows" }}
+[core]
+        editor = code --wait
 {{- end }}
