@@ -1,11 +1,15 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/PowerShell/DSC/main/schemas/2023/08/config/document.json
 #
-# Windows dev setup (home): PowerShell 7, chezmoi, Developer Mode, Visual Studio Community 2026 + workloads.
-# Based on Microsoft's winget-dsc sample: samples/Configuration files/Learn tutorials/WinUI/winui-config.v3.winget
+# HOME ONLY: Visual Studio Community 2026 is not licensed for company use. Do not run at work.
+# Developer Mode + Visual Studio Community 2026 + workloads (.NET desktop, C++ desktop, ASP.NET, WinUI).
+# Run base.winget first. Based on Microsoft's winget-dsc sample:
+#   samples/Configuration files/Learn tutorials/WinUI/winui-config.v3.winget
 # Run from an elevated PowerShell:
 #   winget configure validate -f <this file>
 #   winget configure -f <this file> --accept-configuration-agreements
-# Not included (already installed; add if rebuilding a machine): VS Code (user install), Git for Windows, Windows Terminal.
+# Known: the VSComponents unit reports "Cannot find a process with the name Setup" even on success;
+# check with vswhere instead. Validation's "unit could not be found" for DeveloperMode/VSWorkloads is
+# expected (their modules are installed by earlier units in the same run).
 $schema: https://raw.githubusercontent.com/PowerShell/DSC/main/schemas/2023/08/config/document.json
 metadata:
   winget:
@@ -21,13 +25,6 @@ resources:
     description: Install PowerShell 7 (needed for the module steps below)
     winget:
       securityContext: elevated
-- type: Microsoft.WinGet/Package
-  name: Chezmoi
-  properties:
-    id: twpayne.chezmoi
-    source: winget
-  metadata:
-    description: Install chezmoi (dotfiles; then `chezmoi init --apply ryanmatthes` as a normal user)
 - type: Microsoft.DSC.Transitional/RunCommandOnSet
   name: Microsoft.Windows.Settings.Module
   dependsOn:
