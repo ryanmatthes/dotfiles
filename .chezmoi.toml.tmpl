@@ -1,0 +1,6 @@
+{{- /* Asked once per machine on `chezmoi init`; answers are saved in ~/.config/chezmoi/chezmoi.toml */ -}}
+{{- $machine := promptChoiceOnce . "machine" "Machine type" (list "home" "work") -}}
+{{- $email := promptStringOnce . "email" "Git email for this machine" -}}
+[data]
+    machine = {{ $machine | quote }}
+    email = {{ $email | quote }}
