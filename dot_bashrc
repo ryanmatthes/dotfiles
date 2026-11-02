@@ -117,7 +117,7 @@ if ! shopt -oq posix; then
 fi
 eval "$(~/.local/bin/mise activate bash)"
 
-# --- prompt & CLI tools (mise-managed; see ~/wsl-setup.md) ---
+# --- prompt & CLI tools (mise-managed; see claude-backup/wsl-host/docs/wsl-setup.md) ---
 command -v starship >/dev/null && eval "$(starship init bash)"
 # fzf Ctrl+T / Alt+C: skip dependency and cache dirs (default skip list is only .git,node_modules)
 export FZF_CTRL_T_OPTS="--walker-skip .git,node_modules,target,.venv,venv,__pycache__,.cache"
